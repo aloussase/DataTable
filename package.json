@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@tanstack/vue-query": "^5.51.9",
+        "@tanstack/vue-table": "^8.19.3",
         "@vitejs/plugin-vue": "^5.0.5",
         "@vueuse/core": "^10.11.0",
         "class-variance-authority": "^0.7.0",
