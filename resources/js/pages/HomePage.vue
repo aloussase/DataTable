@@ -1,10 +1,11 @@
 <script setup>
 import {useUser} from "@/hooks/useUser.js";
 import {Button} from "@/components/ui/button";
-import {Plus} from 'lucide-vue-next'
+import {Download, Plus} from 'lucide-vue-next'
 import CreateTableDialog from "@/components/CreateTableDialog.vue";
 import {useTables} from "@/hooks/useTables.js";
 import TableCard from "@/components/TableCard.vue";
+import {generateExcelReport} from "@/api/generateExcelReport.js";
 
 const user = useUser();
 const tables = useTables();
@@ -17,12 +18,18 @@ const tables = useTables();
         </header>
         <main>
             <h2 class="text-xl mb-2">Your tables</h2>
-            <CreateTableDialog>
-                <Button>
-                    <Plus class="w-4 h-4 mr-2"/>
-                    Create
+            <div class="flex items-center gap-2">
+                <CreateTableDialog>
+                    <Button>
+                        <Plus class="w-4 h-4 mr-2"/>
+                        Create
+                    </Button>
+                </CreateTableDialog>
+                <Button @click="generateExcelReport" class="bg-green-300">
+                    <Download class="w-4 h-4 mr-2"/>
+                    EXCEL
                 </Button>
-            </CreateTableDialog>
+            </div>
             <div class="mt-4 flex gap-3 flex-wrap">
                 <TableCard
                     v-for="table of tables.data"

@@ -3,12 +3,17 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "users", "middleware" => "auth:sanctum"], function () {
     Route::get("/me", [UserController::class, "me"]);
+});
+
+Route::group(["prefix" => "reports", "middleware" => "auth:sanctum"], function () {
+    Route::get("/excel", [ReportsController::class, "generateExcelReport"]);
 });
 
 Route::group(["prefix" => "tables", "middleware" => "auth:sanctum"], function () {
