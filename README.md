@@ -7,10 +7,9 @@ exporting to various formats.
 
 ## Development
 
-### Dependencies
-
-- php-gd
-- php-zip
+```
+docker-compose up
+```
 
 ## License
 
