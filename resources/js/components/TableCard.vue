@@ -1,8 +1,6 @@
 <script setup>
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card/index.js";
-import {defineAsyncComponent} from "vue";
-
-const EditTableDialog = defineAsyncComponent(() => import('@/components/EditTableDialog.vue'));
+import EditTableDialog from "@/components/EditTableDialog.vue";
 
 const props = defineProps(["id", 'nombre', 'descripcion'])
 

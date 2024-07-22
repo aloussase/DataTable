@@ -73,12 +73,14 @@ const open = ref(false)
                 <DialogDescription>
                     Add, edit or remove rows from this table.
                 </DialogDescription>
-                <CreateColumnDialog :table-id="id">
-                    <Button class="w-fit">
-                        <Plus class="w-4 h-4 mr-2"/>
-                        Add
-                    </Button>
-                </CreateColumnDialog>
+                <div class="mt-4">
+                    <CreateColumnDialog :table-id="id">
+                        <Button class="w-fit">
+                            <Plus class="w-4 h-4 mr-2"/>
+                            Add
+                        </Button>
+                    </CreateColumnDialog>
+                </div>
             </DialogHeader>
             <ScrollArea v-if="open" class="h-[50dvh] rounded-md w-full">
                 <DataTable :table-id="id" :columns="columns"/>
