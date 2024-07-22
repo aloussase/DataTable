@@ -1,12 +1,15 @@
 <script setup>
 import {FlexRender, getCoreRowModel, useVueTable,} from '@tanstack/vue-table'
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table'
+import {useTableColumns} from "@/hooks/useTableColumns.js";
 
-const props = defineProps(["columns", "data"])
+const props = defineProps(["columns", "tableId"])
+
+const tableColumns = useTableColumns(props.tableId);
 
 const table = useVueTable({
     get data() {
-        return props.data
+        return tableColumns.data
     },
     get columns() {
         return props.columns

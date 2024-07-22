@@ -12,14 +12,11 @@ import {
 import {Plus} from 'lucide-vue-next'
 import {Button} from "@/components/ui/button/index.js";
 import {h, ref} from "vue";
-import {useTableColumns} from "@/hooks/useTableColumns.js";
 import DataTable from "@/components/DataTable.vue";
 import CreateColumnDialog from "@/components/CreateColumnDialog.vue";
 import {ScrollArea} from "@/components/ui/scroll-area/index.js";
 
 const props = defineProps(["id", "nombre", "descripcion"])
-
-const tableColumns = useTableColumns(props.id);
 
 const columns = [
     {
@@ -83,8 +80,8 @@ const open = ref(false)
                     </Button>
                 </CreateColumnDialog>
             </DialogHeader>
-            <ScrollArea class="h-[50dvh] rounded-md w-full">
-                <DataTable :columns="columns" :data="tableColumns.data"/>
+            <ScrollArea v-if="open" class="h-[50dvh] rounded-md w-full">
+                <DataTable :table-id="id" :columns="columns"/>
             </ScrollArea>
             <DialogFooter>
                 <!-- TODO -->
