@@ -1,5 +1,7 @@
 # DataTable
 
+<img src="./showcase.png" alt="showcase" height="350px"/>
+
 DataTable is a tool for creating and manipulating tables of data, with options for
 exporting to various formats.
 
@@ -9,3 +11,7 @@ exporting to various formats.
 
 - php-gd
 - php-zip
+
+## License
+
+MIT
