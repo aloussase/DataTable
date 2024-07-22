@@ -10,27 +10,42 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog/index.js";
-import {Label} from "@/components/ui/label/index.js";
+import * as yup from 'yup'
 import {ref} from "vue";
 import {useTables} from "@/hooks/useTables.js";
-
-const name = ref('')
-const description = ref('')
+import {useForm} from "vee-validate";
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form/index.js";
+import {useToast} from '@/components/ui/toast/use-toast'
 
 const open = ref(false)
-
 const tables = useTables();
 
-const onSubmit = async () => {
-    await tables.create({
-        name: name.value,
-        description: description.value
-    })
+const {toast} = useToast();
 
-    name.value = ''
-    description.value = ''
-    open.value = false
-}
+const schema = yup.object({
+    name: yup.string().required('The name field is required').trim(),
+    description: yup.string().required('The description field is required').trim(),
+})
+
+const {handleSubmit} = useForm({
+    validationSchema: schema
+})
+
+const onSubmit = handleSubmit(async (values) => {
+    try {
+        await tables.create(values);
+        open.value = false
+        toast({
+            title: 'Table created',
+            description: `The table '${values.name}' was created successfully`
+        })
+    } catch {
+        toast({
+            title: 'Failed to create table',
+            description: `There was an error while trying to create the table`
+        });
+    }
+});
 </script>
 
 <template>
@@ -46,18 +61,24 @@ const onSubmit = async () => {
                 </DialogDescription>
             </DialogHeader>
             <div class="grid gap-4 py-4">
-                <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="name" class="text-right">
-                        Name
-                    </Label>
-                    <Input id="name" class="col-span-3" v-model="name"/>
-                </div>
-                <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="description" class="text-right">
-                        Description
-                    </Label>
-                    <Input id="description" class="col-span-3" v-model="description"/>
-                </div>
+                <FormField v-slot="{ componentField }" name="name">
+                    <FormItem class="grid grid-cols-4 items-center gap-x-4">
+                        <FormLabel class="text-right">Name</FormLabel>
+                        <FormControl>
+                            <Input id="name" class="col-span-3" v-bind="componentField"/>
+                        </FormControl>
+                        <FormMessage class="col-span-full place-self-end"/>
+                    </FormItem>
+                </FormField>
+                <FormField v-slot="{ componentField }" name="description">
+                    <FormItem class="grid grid-cols-4 items-center gap-x-4">
+                        <FormLabel class="text-right">Description</FormLabel>
+                        <FormControl>
+                            <Input class="col-span-3" v-bind="componentField"/>
+                        </FormControl>
+                        <FormMessage class="col-span-full place-self-end"/>
+                    </FormItem>
+                </FormField>
             </div>
             <DialogFooter>
                 <Button type="submit" @click="onSubmit">
