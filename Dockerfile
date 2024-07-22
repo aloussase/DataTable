@@ -29,7 +29,7 @@ COPY --from=frontend /app/public /app/public
 RUN composer install
 
 RUN echo "APP_ENV=production" >> .env
-RUN echo "APP_DEBUG=true" >> .env
+RUN echo "APP_DEBUG=false" >> .env
 RUN echo "APP_KEY=" >> .env
 RUN echo "SANCTUM_STATEFUL_DOMAINS=127.0.0.1,localhost,127.0.0.1:8000,127.0.0.1:5173" >> .env
 RUN echo "SESSION_DRIVER=cookie" >> .env
