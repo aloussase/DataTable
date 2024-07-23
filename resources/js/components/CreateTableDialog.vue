@@ -1,6 +1,6 @@
 <script setup>
-import {Button} from "@/components/ui/button/index.js";
-import {Input} from "@/components/ui/input/index.js";
+import { Button } from "@/components/ui/button/index.js";
+import { Input } from "@/components/ui/input/index.js";
 import {
     Dialog,
     DialogContent,
@@ -8,41 +8,50 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
 } from "@/components/ui/dialog/index.js";
-import * as yup from 'yup'
-import {ref} from "vue";
-import {useTables} from "@/hooks/useTables.js";
-import {useForm} from "vee-validate";
-import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form/index.js";
-import {useToast} from '@/components/ui/toast/use-toast'
+import * as yup from "yup";
+import { ref } from "vue";
+import { useTables } from "@/hooks/useTables.js";
+import { useForm } from "vee-validate";
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form/index.js";
+import { useToast } from "@/components/ui/toast/use-toast";
 
-const open = ref(false)
+const open = ref(false);
 const tables = useTables();
 
-const {toast} = useToast();
+const { toast } = useToast();
 
 const schema = yup.object({
-    name: yup.string().required('The name field is required').trim(),
-    description: yup.string().required('The description field is required').trim(),
-})
+    name: yup.string().required("The name field is required").trim(),
+    description: yup
+        .string()
+        .required("The description field is required")
+        .trim(),
+});
 
-const {handleSubmit} = useForm({
-    validationSchema: schema
-})
+const { handleSubmit } = useForm({
+    validationSchema: schema,
+});
 
 const onSubmit = handleSubmit(async (values) => {
     try {
         await tables.create(values);
-        open.value = false
+        open.value = false;
         toast({
-            title: 'Table created',
-            description: `The table '${values.name}' was created successfully`
-        })
+            title: "Table created",
+            description: `The table '${values.name}' was created successfully`,
+        });
     } catch {
         toast({
-            title: 'Failed to create table',
-            description: `There was an error while trying to create the table`
+            title: "Failed to create table",
+            description: `There was an error while trying to create the table`,
         });
     }
 });
@@ -51,9 +60,9 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
     <Dialog v-model:open="open">
         <DialogTrigger as-child>
-            <slot/>
+            <slot />
         </DialogTrigger>
-        <DialogContent class="sm:max-w-[425px]">
+        <DialogContent class="max-w-[350px]">
             <DialogHeader>
                 <DialogTitle>Create a table</DialogTitle>
                 <DialogDescription>
@@ -65,25 +74,27 @@ const onSubmit = handleSubmit(async (values) => {
                     <FormItem class="grid grid-cols-4 items-center gap-x-4">
                         <FormLabel class="text-right">Name</FormLabel>
                         <FormControl>
-                            <Input id="name" class="col-span-3" v-bind="componentField"/>
+                            <Input
+                                id="name"
+                                class="col-span-3"
+                                v-bind="componentField"
+                            />
                         </FormControl>
-                        <FormMessage class="col-span-full place-self-end"/>
+                        <FormMessage class="col-span-full place-self-end" />
                     </FormItem>
                 </FormField>
                 <FormField v-slot="{ componentField }" name="description">
                     <FormItem class="grid grid-cols-4 items-center gap-x-4">
                         <FormLabel class="text-right">Description</FormLabel>
                         <FormControl>
-                            <Input class="col-span-3" v-bind="componentField"/>
+                            <Input class="col-span-3" v-bind="componentField" />
                         </FormControl>
-                        <FormMessage class="col-span-full place-self-end"/>
+                        <FormMessage class="col-span-full place-self-end" />
                     </FormItem>
                 </FormField>
             </div>
             <DialogFooter>
-                <Button type="submit" @click="onSubmit">
-                    Create
-                </Button>
+                <Button type="submit" @click="onSubmit"> Create </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
