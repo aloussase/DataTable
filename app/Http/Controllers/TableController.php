@@ -31,6 +31,27 @@ class TableController extends Controller
         return response()->json($table, 201);
     }
 
+    public function update(int $tableId, Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            "nombre" => "sometimes|string",
+            "descripcion" => "sometimes|string",
+        ]);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        /** @var Table $table */
+        $table = $user->tables()->find($tableId);
+
+        if ($table == null)
+            return response()->json(null, 404);
+
+        $table->update($data);
+
+        return response()->json($table->fresh());
+    }
+
     public function getColumns(int $tableId): JsonResponse
     {
         /** @var User $user */

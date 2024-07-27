@@ -19,6 +19,7 @@ Route::group(["prefix" => "reports", "middleware" => "auth:sanctum"], function (
 Route::group(["prefix" => "tables", "middleware" => "auth:sanctum"], function () {
     Route::get("/", [TableController::class, "index"]);
     Route::post("/", [TableController::class, "store"]);
+    Route::patch("/{tableId}", [TableController::class, "update"]);
     Route::get("/{tableId}/columns", [TableController::class, "getColumns"]);
     Route::post("/{tableId}/columns", [TableController::class, "addColumn"]);
 });

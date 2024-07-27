@@ -8,7 +8,7 @@ const props = defineProps(["id", 'nombre', 'descripcion'])
 
 <template>
     <EditTableDialog v-bind="props">
-        <Card class="w-[350px] cursor-pointer hover:translate-y-0.5 transition-transform">
+        <Card class="min-w-[325px] max-w-fit cursor-pointer hover:translate-y-0.5 transition-transform">
             <CardHeader>
                 <CardTitle>{{ nombre }}</CardTitle>
                 <CardDescription>{{ descripcion }}</CardDescription>

@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
-import {createTable, getTables} from "@/api";
+import {createTable, getTables, updateTable} from "@/api";
 import {reactive} from "vue";
 
 export const useTables = () => {
@@ -15,12 +15,25 @@ export const useTables = () => {
         mutationFn: createTable,
         mutationKey: ["tables"],
         onSuccess: async () => {
-            await queryClient.invalidateQueries("tables");
+            await queryClient.invalidateQueries({
+                queryKey: ["tables"]
+            });
+        }
+    })
+
+    const {mutateAsync: update} = useMutation({
+        mutationKey: ["tables"],
+        mutationFn: updateTable,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["tables"]
+            })
         }
     })
 
     return reactive({
         create,
+        update,
         data
     });
 }
