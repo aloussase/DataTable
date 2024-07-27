@@ -3,63 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Column;
+use App\Models\Table;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ColumnController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function update(int $tableId, int $columnId, Request $request): JsonResponse
     {
-        //
-    }
+        $data = $request->validate([
+            "nombre" => "sometimes|string",
+            "tipo_dato" => "sometimes|string",
+            "es_pk" => "sometimes|boolean",
+            "es_fk" => "sometimes|boolean",
+            "es_null" => "sometimes|boolean",
+            "valor_defecto" => "sometimes|string|nullable",
+            "descripcion" => "sometimes|string",
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        /** @var User $user */
+        $user = auth()->user();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        /** @var Table $table */
+        $table = $user->tables()->find($tableId);
+        if ($table === null) return response()->json(null, 404);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Column $column)
-    {
-        //
-    }
+        /** @var Column $column */
+        $column = $table->columns()->find($columnId);
+        if ($column === null) return response()->json(null, 404);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Column $column)
-    {
-        //
-    }
+        $column->update($data);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Column $column)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Column $column)
-    {
-        //
+        return response()->json($column->fresh());
     }
 }

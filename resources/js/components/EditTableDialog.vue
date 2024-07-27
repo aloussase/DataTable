@@ -12,7 +12,7 @@ import {Input} from "@/components/ui/input";
 
 import {Edit, Plus, Save, X} from "lucide-vue-next";
 import {Button} from "@/components/ui/button/index.js";
-import {h, ref} from "vue";
+import {computed, h, ref} from "vue";
 import DataTable from "@/components/DataTable.vue";
 import CreateColumnDialog from "@/components/CreateColumnDialog.vue";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area/index.js";
@@ -21,6 +21,7 @@ import {ValidationError} from "yup";
 import {useTables} from "@/hooks/useTables.js";
 import {useToast} from "@/components/ui/toast/use-toast";
 import {AxiosError} from "axios";
+import EditColumnButton from "@/components/EditColumnButton.vue";
 
 const props = defineProps(["id", "nombre", "descripcion"]);
 
@@ -42,7 +43,9 @@ const updateTableSchema = yup.object({
 const tables = useTables();
 const {toast} = useToast();
 
-const columns = [
+const editingColumnId = ref(null);
+
+const columns = computed(() => [
     {
         accessorKey: "nombre",
         header: "Nombre",
@@ -81,7 +84,15 @@ const columns = [
         header: "Descripcion",
         accessorKey: "descripcion",
     },
-];
+    {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({row}) => h(EditColumnButton, {
+            tableId: props.id,
+            columnId: row.original.id
+        })
+    }
+]);
 
 const open = ref(false);
 

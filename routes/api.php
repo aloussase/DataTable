@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
@@ -20,8 +21,13 @@ Route::group(["prefix" => "tables", "middleware" => "auth:sanctum"], function ()
     Route::get("/", [TableController::class, "index"]);
     Route::post("/", [TableController::class, "store"]);
     Route::patch("/{tableId}", [TableController::class, "update"]);
-    Route::get("/{tableId}/columns", [TableController::class, "getColumns"]);
-    Route::post("/{tableId}/columns", [TableController::class, "addColumn"]);
+
+    Route::prefix("/{tableId}/columns")->group(function () {
+        Route::get("/", [TableController::class, "getColumns"]);
+        Route::post("/", [TableController::class, "addColumn"]);
+        Route::get("/{columnId}", [TableController::class, "getColumn"]);
+        Route::patch("/{columnId}", [ColumnController::class, "update"]);
+    });
 });
 
 Route::post('/login', LoginController::class);

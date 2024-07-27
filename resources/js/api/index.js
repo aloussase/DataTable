@@ -7,3 +7,4 @@ export {getMe} from "./getMe.js"
 export {loginUser} from "./loginUser.js"
 export {logoutUser} from "./logoutUser.js"
 export {registerUser} from "./registerUser.js"
+export {getTableColumn} from './getTableColumn.js'

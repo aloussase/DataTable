@@ -69,6 +69,21 @@ class TableController extends Controller
         return response()->json($columns);
     }
 
+    public function getColumn(int $tableId, int $columnId): JsonResponse
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        /** @var Table $table */
+        $table = $user->tables()->find($tableId);
+        if ($table === null) return response()->json(null, 404);
+
+        $column = $table->columns()->find($columnId);
+        if ($column === null) return response()->json(null, 404);
+
+        return response()->json($column);
+    }
+
     public function addColumn(int $tableId, Request $request): JsonResponse
     {
         $data = $request->validate([
