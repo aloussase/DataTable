@@ -10,14 +10,15 @@ export const useUser = () => {
 
     const {data} = useQuery({
         queryKey: ['users'],
-        queryFn: getMe
+        queryFn: getMe,
+        initialData: null,
     })
 
     const {mutateAsync: register} = useMutation({
         mutationKey: ['users'],
         mutationFn: registerUser,
         onSuccess: async () => {
-            await queryClient.invalidateQueries('users')
+            await queryClient.invalidateQueries({queryKey: ['users']})
         }
     })
 
@@ -25,7 +26,7 @@ export const useUser = () => {
         mutationKey: ['users'],
         mutationFn: loginUser,
         onSuccess: async () => {
-            await queryClient.invalidateQueries('users')
+            await queryClient.invalidateQueries({queryKey: ['users']})
         }
     })
 
@@ -33,7 +34,7 @@ export const useUser = () => {
         mutationKey: ['users'],
         mutationFn: logoutUser,
         onSuccess: async () => {
-            await queryClient.invalidateQueries('users')
+            await queryClient.invalidateQueries({queryKey: ['users']})
         }
     })
 

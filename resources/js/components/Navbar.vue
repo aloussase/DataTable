@@ -25,7 +25,7 @@ const signOut = async () => {
                     <Github class="h-4 w-4"/>
                 </Button>
             </a>
-            <div v-if="user">
+            <div v-if="user.user !== null">
                 <Button @click="signOut" variant="ghost">
                     Logout
                 </Button>
