@@ -27,6 +27,7 @@ Route::group(["prefix" => "tables", "middleware" => "auth:sanctum"], function ()
         Route::post("/", [TableController::class, "addColumn"]);
         Route::get("/{columnId}", [TableController::class, "getColumn"]);
         Route::patch("/{columnId}", [ColumnController::class, "update"]);
+        Route::delete("/{columnId}", [ColumnController::class, "delete"]);
     });
 });
 

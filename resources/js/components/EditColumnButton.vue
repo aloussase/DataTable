@@ -9,9 +9,8 @@ defineProps(["tableId", "columnId"])
 
 <template>
     <EditColumnDialog :table-id="tableId" :column-id="columnId">
-        <Button class="w-fit">
-            <Edit class="w-4 h-4 mr-2"/>
-            Edit
+        <Button class="w-fit" variant="ghost">
+            <Edit class="w-4 h-4"/>
         </Button>
     </EditColumnDialog>
 </template>

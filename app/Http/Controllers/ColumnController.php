@@ -7,6 +7,7 @@ use App\Models\Table;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ColumnController extends Controller
 {
@@ -36,5 +37,27 @@ class ColumnController extends Controller
         $column->update($data);
 
         return response()->json($column->fresh());
+    }
+
+    public function delete(int $tableId, int $columnId): Response|JsonResponse
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        /** @var Table $table */
+        $table = $user->tables()->find($tableId);
+
+        if ($table === null)
+            return response()->json(["error" => "table not found"], 404);
+
+        /** @var Column $column */
+        $column = $table->columns()->find($columnId);
+
+        if ($column === null)
+            return response()->json(["error" => "column not found"], 404);
+
+        $column->delete();
+
+        return response()->noContent();
     }
 }

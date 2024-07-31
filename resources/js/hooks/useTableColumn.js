@@ -29,12 +29,22 @@ export const useTableColumn = ({tableId, columnId}) => {
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({queryKey: ["column", columnId]})
+        }
+    })
+
+    const {mutateAsync: deleteC} = useMutation({
+        mutationKey: ["column", columnId],
+        mutationFn: async () => {
+            await axios.delete(`/api/tables/${tableId}/columns/${columnId}`);
+        },
+        onSuccess: async () => {
             await queryClient.invalidateQueries({queryKey: ["tables", tableId]});
         }
     })
 
     return reactive({
         data,
-        update
+        update,
+        deleteC
     })
 }

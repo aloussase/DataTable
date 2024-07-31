@@ -34,7 +34,7 @@ const table = useVueTable({
             <TableBody>
                 <template v-if="table.getRowModel().rows?.length">
                     <TableRow
-                        v-for="row in table.getRowModel().rows" :key="row.id"
+                        v-for="row in table.getRowModel().rows" :key="row.original.id"
                         :data-state="row.getIsSelected() ? 'selected' : undefined"
                     >
                         <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">

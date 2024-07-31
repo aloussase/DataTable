@@ -22,6 +22,7 @@ import {useTables} from "@/hooks/useTables.js";
 import {useToast} from "@/components/ui/toast/use-toast";
 import {AxiosError} from "axios";
 import EditColumnButton from "@/components/EditColumnButton.vue";
+import DeleteColumnButton from "@/components/DeleteColumnButton.vue"
 
 const props = defineProps(["id", "nombre", "descripcion"]);
 
@@ -42,8 +43,6 @@ const updateTableSchema = yup.object({
 
 const tables = useTables();
 const {toast} = useToast();
-
-const editingColumnId = ref(null);
 
 const columns = computed(() => [
     {
@@ -87,10 +86,19 @@ const columns = computed(() => [
     {
         id: 'actions',
         enableHiding: false,
-        cell: ({row}) => h(EditColumnButton, {
-            tableId: props.id,
-            columnId: row.original.id
-        })
+        cell: ({row}) => {
+            const editBtn = h(EditColumnButton, {
+                tableId: props.id,
+                columnId: row.original.id
+            });
+
+            const deleteBtn = h(DeleteColumnButton, {
+                tableId: props.id,
+                columnId: row.original.id
+            });
+
+            return h("div", {class: "flex gap-2"}, [editBtn, deleteBtn]);
+        }
     }
 ]);
 
