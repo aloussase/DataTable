@@ -67,7 +67,7 @@ class ReportsController extends Controller
                 $sheet->setCellValue("A$row", $col->nombre);
                 $sheet->setCellValue("B$row", $col->tipo_dato);
                 $sheet->setCellValue("C$row", $col->es_pk ? 'PK' : ($col->es_fk ? 'FK' : '-'));
-                $sheet->setCellValue("D$row", $col->es_null ? 'Sí' : 'No');
+                $sheet->setCellValue("D$row", $col->es_null ? 'No' : 'Sí');
                 $sheet->setCellValue("E$row", $col->valor_defecto ?? '-');
                 $sheet->setCellValue("F$row", $col->descripcion);
 
